@@ -1,42 +1,6 @@
 import Data.Map.Strict (Map, fromList, (!))
-import System.Random
 import Data.List
 import Control.Monad.Writer.Strict (Any)
-
-
-
-data JSONValue
-  = JSONNull | JSONBool Bool | JSONNumber Double
-  | JSONString String | JSONArray [JSONValue]
-  | JSONObject (Map String JSONValue)
-  deriving (Eq, Show)
-  
-
-
---randomJSON :: Int -> Int -> IO JSONValue
---randomJSON h w = if (w == 0) then do 
---	let result = JSONNull
---	return result
---	else do
---		ix <- randomRIO (0, 5)
---		let gen = getStdGen
---		let value = randomJValue ix gen
---		return
-
-
---randomJValue :: Int -> g -> JSONValue
---randomJValue 0 g = JSONNull
---randomJValue 1 g = JSONBool randomBool g
---randomJValue 2 g = JSONNumber randomNumber
---randomJValue 3 g = JSONString randomString
---randomJValue 4 g = JSONArray randomArray
---randomJValue 5 g = JSONObject randomObject
-
---randomBool :: RandomGen g => g -> Bool
---randomBool g = (fst (randomR (0, 1) g)) == 1
-
-
-
 
 data Prop = TruthValue Bool | PropVar String
   | OpNOT Prop | OpAND Prop Prop | OpOR Prop Prop 
@@ -66,4 +30,17 @@ propVars (OpBicond p1 p2)  = nub ((propVars p1) ++ (propVars p2))
 propVars (OpCond p1 p2)  = nub ((propVars p1) ++ (propVars p2))
 
 asigns :: Prop -> [VarAsign]
-asigns p = 
+asigns p = map fromList (auxAsigns (propVars p) [])
+
+auxAsigns :: [String] -> [(String, Bool)] -> [[(String, Bool)]]
+auxAsigns [] lista = [lista]
+auxAsigns (v:vs) lista = auxAsigns vs evalFalse ++ auxAsigns vs evalTrue where
+	evalFalse = (v, False) : lista
+	evalTrue = (v, True) : lista
+
+tautology :: Prop -> Bool
+tautology p = auxTautology p (asigns p)
+
+auxTautology :: Prop -> [VarAsign] -> Bool
+auxTautology p (va:[]) = eval p va
+auxTautology p (va:vas) = if (not (eval p va)) then False else auxTautology p vas
