@@ -31,5 +31,8 @@ factorial(N, F) :-
 
 factorial(0, 1).
 
-zip([X|Xs], [Y|Ys], [pair(X,Y)|Zs]) :- 
-    zip(Xs,Ys,Zs).
+zip([], [], []).
+zip([_], [], []).
+zip([], [_], []).
+zip([X|Xs], [Y|Ys], [pair(X,Y)|XYs]) :-
+   zip(Xs, Ys, XYs).
