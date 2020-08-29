@@ -29,6 +29,4 @@ factorial(N, F) :-
     factorial(N1,F1),
     F is N * F1.
 
-factorial(N, F) :-
-    N = 0,
-    F = 1.
+factorial(0, 1).
