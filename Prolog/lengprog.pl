@@ -30,3 +30,6 @@ factorial(N, F) :-
     F is N * F1.
 
 factorial(0, 1).
+
+zip([X|Xs], [Y|Ys], [pair(X,Y)|Zs]) :- 
+    zip(Xs,Ys,Zs).
