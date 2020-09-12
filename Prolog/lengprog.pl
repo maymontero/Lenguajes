@@ -132,3 +132,23 @@ actions(T, AS) :-
         mark(P, 3), mark(P, 4), mark(P, 5),
         mark(P, 6), mark(P, 7), mark(P, 8)
     ], AS).
+
+nextState(tictactoe(empty, S1, S2, S3, S4, S5, S6, S7, S8), mark(P, 0), tictactoe(P, S1, S2, S3, S4, S5, S6, S7, S8)) :- activePlayer(tictactoe(empty, S1, S2, S3, S4, S5, S6, S7, S8), mark(P, 0)).
+nextState(tictactoe(S0, empty, S2, S3, S4, S5, S6, S7, S8), mark(P, 1), tictactoe(S0, P, S2, S3, S4, S5, S6, S7, S8)) :- activePlayer(tictactoe(S0, empty, S2, S3, S4, S5, S6, S7, S8), mark(P, 1)).
+nextState(tictactoe(S0, S1, empty, S3, S4, S5, S6, S7, S8), mark(P, 2), tictactoe(S0, S1, P, S3, S4, S5, S6, S7, S8)) :- activePlayer(tictactoe(S0, S1, empty, S3, S4, S5, S6, S7, S8), mark(P, 2)).
+nextState(tictactoe(S0, S1, S2, empty, S4, S5, S6, S7, S8), mark(P, 3), tictactoe(S0, S1, S2, P, S4, S5, S6, S7, S8)) :- activePlayer(tictactoe(S0, S1, S2, empty, S4, S5, S6, S7, S8), mark(P, 3)).
+nextState(tictactoe(S0, S1, S2, S3, empty, S5, S6, S7, S8), mark(P, 4), tictactoe(S0, S1, S2, S3, P, S5, S6, S7, S8)) :- activePlayer(tictactoe(S0, S1, S2, S3, empty, S5, S6, S7, S8), mark(P, 4)).
+nextState(tictactoe(S0, S1, S2, S3, S4, empty, S6, S7, S8), mark(P, 5), tictactoe(S0, S1, S2, S3, S4, P, S6, S7, S8)) :- activePlayer(tictactoe(S0, S1, S2, S3, S4, empty, S6, S7, S8), mark(P, 5)).
+nextState(tictactoe(S0, S1, S2, S3, S4, S5, empty, S7, S8), mark(P, 6), tictactoe(S0, S1, S2, S3, S4, S5, P, S7, S8)) :- activePlayer(tictactoe(S0, S1, S2, S3, S4, S5, empty, S7, S8), mark(P, 6)).
+nextState(tictactoe(S0, S1, S2, S3, S4, S5, S6, empty, S8), mark(P, 7), tictactoe(S0, S1, S2, S3, S4, S5, S6, P, S8)) :- activePlayer(tictactoe(S0, S1, S2, S3, S4, S5, S6, empty, S8), mark(P, 7)).
+nextState(tictactoe(S0, S1, S2, S3, S4, S5, S6, S7, empty), mark(P, 8), tictactoe(S0, S1, S2, S3, S4, S5, S6, S7, P)) :- activePlayer(tictactoe(S0, S1, S2, S3, S4, S5, S6, S7, empty), mark(P, 8)).
+
+result(T, victory(P)) :-
+    winner(T, P).
+result(T, draw) :-
+    \+ winner(T, _),
+    actions(T, AS),
+    AS = [].
+
+finished(T) :-
+    result(T, _).
