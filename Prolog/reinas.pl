@@ -17,4 +17,29 @@ buildRow(6, [empty, empty, empty, empty, empty, queen, empty, empty]).
 buildRow(7, [empty, empty, empty, empty, empty, empty, queen, empty]).
 buildRow(8, [empty, empty, empty, empty, empty, empty, empty, queen]).
 
+eightQueens(B) :-
+    permutation(B, [1, 2, 3, 4, 5, 6, 7, 8]).
+    checkDiagonals(B).
+
+checkDiagonals([]).
+checkDiagonals([B|BS]) :-
+    checkDiagonal(B, BS, 1),
+    checkDiagonals(BS).
+
+%checkDiagonal(B, BS, I) :-
+%   zip(B, BS, R),
+
+
+
+checkDiagonal(_, [], _).
+checkDiagonal(N, [B|BS], I) :-
+    \+(B is (N+I)),
+    \+(B is (N-I)),
+    checkDiagonal(N, BS, I+1).
+
+zip([], [], []).
+zip([_], [], []).
+zip([], [_], []).
+zip([X|Xs], [Y|Ys], [pair(X,Y)|XYs]) :-
+   zip(Xs, Ys, XYs).
 %[[queen, empty, empty, empty, empty, empty, empty, empty], [empty, queen, empty, empty, empty, empty, empty, empty], [empty, empty, queen, empty, empty, empty, empty, empty], [empty, empty, empty, queen, empty, empty, empty, empty], [empty, empty, empty, empty, queen, empty, empty, empty], [empty, empty, empty, empty, empty, queen, empty, empty], [empty, empty, empty, empty, empty, empty, queen, empty], [empty, empty, empty, empty, empty, empty, empty, queen]]
