@@ -33,4 +33,7 @@ checkDiagonal(N, [B|BS], I) :-
     I1 = I + 1,
     checkDiagonal(N, BS, I1).
 
-%[[queen, empty, empty, empty, empty, empty, empty, empty], [empty, queen, empty, empty, empty, empty, empty, empty], [empty, empty, queen, empty, empty, empty, empty, empty], [empty, empty, empty, queen, empty, empty, empty, empty], [empty, empty, empty, empty, queen, empty, empty, empty], [empty, empty, empty, empty, empty, queen, empty, empty], [empty, empty, empty, empty, empty, empty, queen, empty], [empty, empty, empty, empty, empty, empty, empty, queen]]
+eightQueensBoard(BR) :- 
+    eightQueens(B),    
+    boardRows(BR, B).
+
