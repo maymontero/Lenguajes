@@ -37,7 +37,58 @@ void evaluate(char **code, int *pos, int *stack, int *top) {
 }
 
 int main() {
-    char* code[] = {"3", "1", "1", "SUB", "DIV"};
+    //char *code[] = {"1", "2", "3", "MULT", "ADD"};
+    char *code[10];
+    int first = 0;
+    int *pos = &first;
+    int stack[50];
+    int last = -1;
+    int *top = &last;
+    
+    char text[50];
+    fgets(text, 50, stdin);
+
+    int n = 0;
+    int count = 0;
+    
+
+    while (text[0] != '\n'){
+
+        char *token = strtok(text, " ");
+
+        while( token != NULL ) {
+            if (strstr(token, "\n"))
+                token = strtok(token, "\n");
+            code[n] = token;
+            token = strtok(NULL, " ");
+            n++;
+        }
+
+        for (int i = 0; i < n; i++) {
+            evaluate(code, pos, stack, top);
+        }
+
+        n = 0;
+        count++;
+        first = 0;
+        last = count - 1;
+
+        for (int j = 0; j < count; j++)  {
+            printf("%d ", stack[j]);
+        }
+
+        printf("\n");
+        fgets(text, 50, stdin);
+    }
+}
+
+
+
+    
+
+/*
+int main() {
+    char* code[] = {"1", "2", "3", "MULT", "ADD"};
     int first = 0;
     int *pos = &first;
     int stack[50];
@@ -47,18 +98,11 @@ int main() {
     int result;
 
     evaluate(code, pos, stack, top);
-    result = stack[0];
-    printf("%d\n", result);
-
     evaluate(code, pos, stack, top);
     evaluate(code, pos, stack, top);
     evaluate(code, pos, stack, top);
-    result = stack[1];
-    printf("%d\n", result);
-
     evaluate(code, pos, stack, top);
     result = stack[0];
     printf("%d\n", result);
 }
-
-
+*/
