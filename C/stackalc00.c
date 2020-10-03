@@ -108,7 +108,7 @@ void evaluate(char **code, int *pos, int *stack, int *top) {
         char jump[2];
         strncpy(jump, instruction+4, 2);
         if(strcmp("00", jump) == 0){
-            printf("Operador inválido");
+            printf("Operador inválido\n");
             return;
         }
         int jumpNumber = atoi(jump);
@@ -118,9 +118,9 @@ void evaluate(char **code, int *pos, int *stack, int *top) {
         }
     } else if(strstr(instruction, "UJP+") != NULL){
         char jump[2];
-        strncpy(jump, instruction+4, 2);
+        strncpy(jump, instruction+4, 2);   
         if(strcmp("00", jump) == 0){
-            printf("Operador inválido");
+            printf("Operador inválido\n");
             return;
         }
         int jumpNumber = atoi(jump);
@@ -133,7 +133,7 @@ void evaluate(char **code, int *pos, int *stack, int *top) {
             char jump[2];
             strncpy(jump, instruction+4, 2);
             if(strcmp("00", jump) == 0){
-                printf("Operador inválido");
+                printf("Operador inválido\n");
                 return;
             }
             int jumpNumber = atoi(jump);
@@ -147,7 +147,7 @@ void evaluate(char **code, int *pos, int *stack, int *top) {
             char jump[2];
             strncpy(jump, instruction+4, 2);
             if(strcmp("00", jump) == 0){
-                printf("Operador inválido");
+                printf("Operador inválido\n");
                 return;
             }
             int jumpNumber = atoi(jump);
@@ -158,6 +158,7 @@ void evaluate(char **code, int *pos, int *stack, int *top) {
         }
     }
     else {
+        printf("%s ", instruction);
         int number = atoi(instruction);
         if (number) {
             stack[*top+1] = number;
@@ -165,7 +166,7 @@ void evaluate(char **code, int *pos, int *stack, int *top) {
             *top = newTop;
         }
         else {
-            printf("Operador inválido");
+            printf("Operador inválido error\n");
             return;
         }
     }
@@ -175,7 +176,7 @@ void evaluate(char **code, int *pos, int *stack, int *top) {
 
 int main() {
     //char *code[] = {"1", "2", "3", "MULT", "ADD"};
-    char *code[10];
+    char *code[30];
     int first = 0;
     int *pos = &first;
     int stack[50];
@@ -183,12 +184,10 @@ int main() {
     int *top = &last;
     
     char text[50];
-    fgets(text, 50, stdin);
+    fgets(text, 100, stdin);
 
     int n = 0;
-    int count = 0;
     
-
     while (text[0] != '\n'){
 
         char *token = strtok(text, " ");
@@ -206,41 +205,12 @@ int main() {
         }
 
         n = 0;
-        count++;
-        first = 0;
-        last = count - 1;
-        
-        for (int j = 0; j < *top; j++)  {
+
+        for (int j = 0; j <= *top; j++)  {
             printf("%d ", stack[j]);
         }
 
-        printf("\n");
-        fgets(text, 50, stdin);
+        printf("%s", "\n");
+        fgets(text, 100, stdin);
     }
 }
-
-
-
-    
-
-/*
-int main() {
-    char* code[] = {"1", "2", "3", "MULT", "ADD"};
-    int first = 0;
-    int *pos = &first;
-    int stack[50];
-    int last = -1;
-    int *top = &last;
-
-    int result;
-
-    evaluate(code, pos, stack, top);
-    evaluate(code, pos, stack, top);
-    evaluate(code, pos, stack, top);
-    evaluate(code, pos, stack, top);
-    evaluate(code, pos, stack, top);
-    result = stack[0];
-    printf("%d\n", result);
-}
-*/
-
