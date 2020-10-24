@@ -1,0 +1,29 @@
+irb(main):008:0> var_a = Var.new("a")
+=> #<Var:0x0000000006bea630 @id="a">
+irb(main):009:0> var_b = Var.new("b")
+=> #<Var:0x0000000006bab430 @id="b">
+irb(main):010:0> state = {}
+=> {}
+irb(main):011:0> rand = Rand.new()
+=> #<Rand:0x0000000006c84a50>
+irb(main):012:0> Seq.new([Assign.new(var_a, rand), Assign.new(var_b, rand)]).evaluate(state)
+=> {"a"=>0.8372523481405368, "b"=>0.9526969902496711}
+
+irb(main):017:0> var_c = Var.new("c")
+=> #<Var:0x0000000006b703d0 @id="c">
+irb(main):018:0> IfThenElse.new(CompGT.new(Num.new(4), Num.new(3)), Assign.new(var_c, ConstFalse.new()), Assign.new(var_c, Rand.new())).evaluate(state)
+=> {"a"=>0.8372523481405368, "b"=>0.9526969902496711, "c"=>false}
+
+irb(main):022:0> var_d = Var.new("d")
+=> #<Var:0x0000000006bb9030 @id="d">
+irb(main):023:0> Assign.new(var_d, Num.new(0)).evaluate(state)
+=> {"a"=>0.8372523481405368, "b"=>0.9526969902496711, "c"=>false, "d"=>0.0}
+irb(main):024:0> ass_d = Assign.new(var_d, Sum.new(var_d, Num.new(1)))
+=> #<Assign:0x0000000006cb38f0 @ref=#<Var:0x0000000006bb9030 @id="d">, @exp=#<Sum:0x0000000006cb3918 @exp1=#<Var:0x...
+irb(main):025:0> While.new(OpAnd.new(ConstTrue.new(), CompLT.new(var_d, Num.new(5))), Seq.new([Print.new(var_d), ass_d])).evaluate(state)
+0.0
+1.0
+2.0
+3.0
+4.0
+=> {"a"=>0.8372523481405368, "b"=>0.9526969902496711, "c"=>false, "d"=>5.0}

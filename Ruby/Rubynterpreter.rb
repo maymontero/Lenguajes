@@ -1,4 +1,10 @@
-class Num
+class Exp
+end
+
+class Stmt
+end
+
+class Num < Exp
     def initialize(n)
         @n = Float(n)
     end
@@ -7,7 +13,7 @@ class Num
     end
 end
 
-class Var
+class Var < Exp
     def initialize(id)
         @id = id
     end
@@ -19,7 +25,7 @@ class Var
     end
 end
 
-class Sum
+class Sum < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -29,7 +35,7 @@ class Sum
     end
 end
 
-class Mult
+class Mult < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -39,7 +45,7 @@ class Mult
     end
 end
 
-class Minus
+class Minus < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -49,7 +55,7 @@ class Minus
     end
 end
 
-class UMinus
+class UMinus < Exp
     def initialize(exp)
         @exp = exp
     end
@@ -58,7 +64,7 @@ class UMinus
     end
 end
 
-class Div
+class Div < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -68,7 +74,7 @@ class Div
     end
 end
 
-class ConstTrue
+class ConstTrue < Exp
     def initialize()
         @value = true
     end
@@ -77,7 +83,7 @@ class ConstTrue
     end
 end
 
-class ConstFalse
+class ConstFalse < Exp
     def initialize()
         @value = false
     end
@@ -86,7 +92,7 @@ class ConstFalse
     end
 end
 
-class CompEQ
+class CompEQ < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -96,7 +102,7 @@ class CompEQ
     end
 end
 
-class CompLT
+class CompLT < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -106,7 +112,7 @@ class CompLT
     end
 end
 
-class CompLTE
+class CompLTE < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -116,7 +122,7 @@ class CompLTE
     end
 end
 
-class CompGT
+class CompGT < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -126,7 +132,7 @@ class CompGT
     end
 end
 
-class CompGTE
+class CompGTE < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -136,7 +142,7 @@ class CompGTE
     end
 end
 
-class CompDIF
+class CompDIF < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -146,7 +152,7 @@ class CompDIF
     end
 end
 
-class OpNot
+class OpNot < Exp
     def initialize(exp)
         @exp = exp
     end
@@ -155,7 +161,7 @@ class OpNot
     end
 end
 
-class OpAnd
+class OpAnd < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -165,7 +171,7 @@ class OpAnd
     end
 end
 
-class OpOr
+class OpOr < Exp
     def initialize(exp1, exp2)
         @exp1 = exp1
         @exp2 = exp2
@@ -175,16 +181,15 @@ class OpOr
     end
 end
 
-class Rand
+class Rand < Exp
     def initialize()
-        @n = rand
     end
     def evaluate(state)
-        @n
+        rand
     end
 end
 
-class Assign
+class Assign < Stmt
     def initialize(ref, exp)
         @ref = ref
         @exp = exp
@@ -195,28 +200,29 @@ class Assign
     end
 end
 
-class Seq
-    def initialize(first, second)
-        @first = first
-        @second = second
+class Seq < Stmt
+    def initialize(list)
+        @list = list
     end 
     def evaluate(state)
-        @first.evaluate(state)
-        @second.evaluate(state)
+        for stmt in @list
+            stmt.evaluate(state)
+        end
+        state
     end
 end
 
-class IfThen
+class IfThen < Stmt
     def initialize(cond, stmt)
         @cond = cond
         @stmt = stmt
     end
     def evaluate(state)
-        @cond.evaluate(state) ? @stmt.evaluate(state) : nil
+        @cond.evaluate(state) ? @stmt.evaluate(state) : state
     end
 end
 
-class IfThenElse
+class IfThenElse < Stmt
     def initialize(cond, stmt1, stmt2)
         @cond = cond
         @stmt1 = stmt1
@@ -227,7 +233,7 @@ class IfThenElse
     end
 end
 
-class While
+class While < Stmt
     def initialize(cond, stmt)
         @cond = cond
         @stmt = stmt
@@ -236,14 +242,16 @@ class While
         while @cond.evaluate(state)
             @stmt.evaluate(state)
         end
+        state
     end
 end
 
-class Print
-    def initialize(stmt)
-        @stmt = stmt
+class Print < Stmt
+    def initialize(exp)
+        @exp = exp
     end
     def evaluate(state)
-        puts @stmt.evaluate(state)
+        puts @exp.evaluate(state)
+        state
     end
 end
