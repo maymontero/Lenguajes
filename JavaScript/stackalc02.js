@@ -1,9 +1,3 @@
-let state = {
-    code: [1, 2, 3, '+', 4, '*'],
-    pos: 0,
-    stack: []
-};
-
 function evaluate(state) {
     const instruction = state.code[state.pos]; 
     if (state.stack.length >= 2) {
@@ -83,5 +77,24 @@ function evaluate(state) {
 }
 
 
+let state = {
+    code: [ 3, 4, 1, '+', '>' ],
+    pos: 0,
+    stack: []
+};
+
+for(let i = 0; i < state.code.length-1; i++){
+    evaluate(state);
+}
 
 console.log(evaluate(state));
+
+console.log("-----------------------------------------------------------------")
+state.code = [ 22, 33, 4, '-', '*' ];
+state.pos = 0; 
+
+for(let i = 0; i < state.code.length-1; i++){
+    evaluate(state);
+}
+console.log(evaluate(state));
+
