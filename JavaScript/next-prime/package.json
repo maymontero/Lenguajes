@@ -1,0 +1,18 @@
+{
+  "name": "next-prime",
+  "version": "0.0.1",
+  "description": "Ejemplo del modelo de actores",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "author": "Leonardo Val",
+  "license": "ISC",
+  "dependencies": {
+    "comedy": "^2.1.1",
+    "node-fetch": "^2.6.1",
+    "restify": "^8.5.1",
+    "restify-errors": "^8.0.2"
+  }
+}

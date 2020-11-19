@@ -1,0 +1,6 @@
+{
+  "PrimeFinderActor": {
+    "mode": "forked",
+    "clusterSize": 1
+  }
+}
